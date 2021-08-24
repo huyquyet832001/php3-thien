@@ -14,7 +14,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $pagesize = 20;
+        $pagesize = 10;
         $searchData = $request->except('page');
         if (count($request->all()) == 0) {
             // Lấy ra danh sách sản phẩm & phân trang cho nó

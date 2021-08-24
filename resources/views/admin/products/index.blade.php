@@ -66,7 +66,7 @@
                         <tbody>
                             @foreach ($data_product as $item)
                                 <tr>
-                                    <td>{{ ($data_product->currentPage() - 1) * 20 + $loop->iteration }}</td>
+                                    <td>{{ ($data_product->currentPage() - 1) * 10 + $loop->iteration }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td><img src="{{ asset('storage/' . $item->image) }}" width="70" alt=""></td>
 

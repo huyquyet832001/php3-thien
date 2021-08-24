@@ -1,6 +1,11 @@
 @extends('users/layout')
 @section('content-right')
     <div class="container-fluid">
+        @if (Session::has('thongbaocart'))
+            <div class="alert alert-primary" role="alert">
+                {{ Session::get('thongbaocart') }}
+            </div>
+        @endif
         <div class="row mt-3">
             <div class="col-4">
                 <img src="   {{ asset('storage/' . $product_detail->image) }}" class="img-fluid" alt="">
@@ -25,8 +30,15 @@
                     <div style="color:red; font-weight:bold;font-size:16px">Giảm Chỉ Còn:
                         {{ number_format($product_detail->promotion_price) }}</div>
                 @endif
+                @if ($product_detail->quantity == 0)
+                    <div style="color:black; font-weight:bold;font-size:16px">Số Lượng: Sản Phẩm Hiện Tại Đã Hết Hàng
+                    </div>
+                @else
+                    <div style="color:black; font-weight:bold;font-size:16px">Số Lượng:
+                        {{ $product_detail->quantity }}</div>
+                @endif
 
-                <div class=" mt-5 " style="border:1px solid green;border-radius:15px">
+                <div class=" mt-3 " style="border:1px solid green;border-radius:15px">
                     <div
                         style="background: green; border-radius: 10px; color: #fff;width:170px;height:30px;margin-left:10px">
                         <h6 class="pl-2 mt-2" style="padding:5px 10px;margin-left:15px"><i

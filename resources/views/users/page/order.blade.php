@@ -25,11 +25,17 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label>Địa Chỉ</label>
-                        <input type="text" class="form-control" name="address">
+                        <input type="text" class="form-control" name="address" value="{{ old('address') }}">
+                        @error('address')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group col-md-6">
                         <label>Số Điện Thoại</label>
-                        <input type="text" class="form-control" name="phone">
+                        <input type="text" class="form-control" name="phone" value="{{ old('phone') }}">
+                        @error('phone')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group col-md-6">
                         <label>Ghi Chú</label>

@@ -53,11 +53,18 @@ class PageController extends Controller
     public function getAddCart(Request $request, $id)
     {
         $product = Product::find($id);
-        $oldCart = Session('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->add($product, $id);
-        $request->session()->put('cart', $cart);
-        return redirect(route('users.page.cart'));
+        if ($product->quantity > 0) {
+            $oldCart = Session('cart') ? Session::get('cart') : null;
+            $cart = new Cart($oldCart);
+            $cart->add($product, $id);
+            foreach ($cart->items as $key => $value) {
+                $product->quantity = $product->quantity - $value['qty'];
+                $product->save();
+            }
+            $request->session()->put('cart', $cart);
+            return redirect(route('users.page.cart'));
+        }
+        return redirect()->back()->with('thongbaocart', 'Hiện Tại Sản Phẩm Đã Hết Hàng');
     }
     public function deleteCart($id)
     {
@@ -69,7 +76,6 @@ class PageController extends Controller
         } else {
             Session::forget('cart');
         }
-
         return redirect()->back();
     }
     public function Order()
@@ -78,6 +84,16 @@ class PageController extends Controller
     }
     public function AddOrder(Request $request)
     {
+        $request->validate(
+            [
+                'address' => 'required',
+                'phone' => 'required'
+            ],
+            [
+                'address.required' => 'Hãy Nhập Địa Chỉ Để Giao Hàng',
+                'phone.required' => 'Hãy nhập Số Điện Thoại'
+            ]
+        );
         $cart = Session::get('cart');
         $bill = new Bill();
         $bill->id_User = Auth::user()->id;
